@@ -233,9 +233,8 @@ while True:
 		if 60 in addresses:
 			# IP address - show first detected network interface
 			if a == 1 and network_interfaces:
-				iface_name = network_interfaces[0][0]
 				iface_ip = network_interfaces[0][1]
-				draw.text((x, top),       f"{iface_name}: {iface_ip}",  font=font, fill=255)
+				draw.text((x, top),       f"IP: {iface_ip}",  font=font, fill=255)
 			else:
 				draw.text((x, top),       "No Connection!",  font=font, fill=255)
 			
