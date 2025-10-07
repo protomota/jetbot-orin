@@ -1,76 +1,99 @@
 # JetBot Docker
 
-This directory contains scripts to build the JetBot docker containers.  
+This directory contains scripts to build and run the JetBot docker containers.
 
 ## Quick Start
 
 ### Step 1 - Configure System
 
-First, call the ``scripts/configure_jetson.sh`` script to configure the power mode and other parameters.
+First, call the `scripts/configure_jetson.sh` script to configure the power mode and other parameters.
 
 ```bash
 cd jetbot
 ./scripts/configure_jetson.sh
 ```
 
-Next, source the ``docker/configure.sh`` script to configure various environment variables related to JetBot docker.
+### Step 2 - Configure Docker Environment
+
+Navigate to the docker directory and source the `configure.sh` script to configure environment variables.
 
 ```bash
 cd docker
 source configure.sh
 ```
 
-Depending on your Jetson L4T version, you may get a similar warning :
+The script will automatically detect your L4T version and set the appropriate base image. If your L4T version is not recognized, you may see a warning. In that case, manually set the base image:
 
 ```bash
-JETBOT_BASE_IMAGE not found for 32.6.1.  Please manually set the JETBOT_BASE_IMAGE environment variable. (ie: export JETBOT_BASE_IMAGE=...)
+export JETBOT_BASE_IMAGE=<appropriate-base-image>
 ```
 
-In the case of ``32.6.1``, the following container will work :
+Refer to https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch for available base images.
+
+### Step 3 - Build Docker Containers
+
+Build all JetBot containers from scratch:
 
 ```bash
-export JETBOT_BASE_IMAGE=nvcr.io/nvidia/l4t-pytorch:r32.6.1-pth1.9-py3
+./build.sh
 ```
 
-Refer to ``https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch`` for more details.
+This step is required before running the containers for the first time.
 
-Finally, if you haven't already, set the default docker runtime to NVIDIA.  This is needed to use
-CUDA related components with the containers.
+### Step 4 - Enable and Start Containers
+
+Enable Docker to start at boot and launch the JetBot containers:
 
 ```bash
-./set_nvidia_runtime.sh
+./enable.sh $HOME
 ```
 
-If needed, you can also set memory limits on the Jupyter container.
+The directory you specify (e.g., `$HOME`) will be mounted as `/workspace` in the Jupyter container. All work saved in `/workspace` will persist across container restarts.
+
+### Step 5 - Access Jupyter Lab
+
+Open your web browser and navigate to:
+
+```
+https://<jetbot_ip>:8888
+```
+
+The default password is `jetbot`.
+
+![](https://user-images.githubusercontent.com/25759564/92091965-51ae4f00-ed86-11ea-93d5-09d291ccfa95.png)
+
+## Optional Configuration
+
+### Memory Limits
+
+If you need to set memory limits on the Jupyter container (automatically configured for systems with less than 3GB RAM):
 
 ```bash
 export JETBOT_JUPYTER_MEMORY=500m
 export JETBOT_JUPYTER_MEMORY_SWAP=3G
 ```
 
-### Step 2 - Building Containers
+Set these environment variables before running `./enable.sh`.
 
-If you want to build the containers from scratch, simply call :
+## Managing Containers
+
+### Stop All Containers
 
 ```bash
+./disable.sh
+```
+
+### Rebuild Containers
+
+```bash
+./disable.sh
 ./build.sh
+./enable.sh $HOME
 ```
 
-### Step 3 - Enable All Containers
+## Important Notes
 
-Call the following to enable the JetBot docker containers 
-
-```bash
-sudo systemctl enable docker   # enable docker daemon at boot
-./enable.sh $HOME   # we'll use home directory as working directory, set this as you please.
-```
-
-Now you can go to ``https://<jetbot_ip>:8888`` from a web browser and start programming JetBot!
-You can do this from any machine on your local network.  The password to log in is ``jetbot``.
-
-![](https://user-images.githubusercontent.com/25759564/92091965-51ae4f00-ed86-11ea-93d5-09d291ccfa95.png)
-
-
-> Note: The directory you specify to ``./enable.sh`` will be mounted as a volume in the jupyter container 
-at the location ``/workspace``.  This means the work you in the ``/workspace`` folder inside container
-is saved.  This is set to the root directory of Jupyter Lab.  Please note, if you work outside of that directory it will be lost when the container shuts down.
+- The containers will restart automatically on boot
+- Work saved outside of `/workspace` in the Jupyter container will be lost when the container restarts
+- The NVIDIA runtime is automatically configured by `configure.sh`
+- Docker daemon is automatically enabled at boot by `configure.sh`
