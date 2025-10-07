@@ -24,6 +24,7 @@ then
 	    --name=jetbot_jupyter \
 	    --memory-swap=$JETBOT_JUPYTER_MEMORY_SWAP \
 	    --env JETBOT_DEFAULT_CAMERA=$JETBOT_CAMERA \
+	    --env JETBOT_I2C_BUS=${JETBOT_I2C_BUS:-1} \
 	    $JETBOT_DOCKER_REMOTE/jetbot:jupyter-$JETBOT_VERSION-$L4T_VERSION
 
 else
@@ -43,6 +44,7 @@ else
 	    --memory=$JETBOT_JUPYTER_MEMORY \
 	    --memory-swap=$JETBOT_JUPYTER_MEMORY_SWAP \
 	    --env JETBOT_DEFAULT_CAMERA=$JETBOT_CAMERA \
+	    --env JETBOT_I2C_BUS=${JETBOT_I2C_BUS:-1} \
 	    $JETBOT_DOCKER_REMOTE/jetbot:jupyter-$JETBOT_VERSION-$L4T_VERSION
 
 fi

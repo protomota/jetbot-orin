@@ -44,3 +44,26 @@ then
     export JETBOT_JUPYTER_MEMORY_SWAP=3G
 fi
 
+# Auto-detect I2C bus for motor controller and OLED display
+# Scan common I2C buses for Adafruit MotorHAT (0x60) AND OLED (0x3c)
+# Prioritize buses with both devices
+JETBOT_I2C_BUS=1  # default
+for bus in 7 1; do
+    BUS_SCAN=$(i2cdetect -y -r $bus 2>/dev/null)
+    HAS_MOTOR=$(echo "$BUS_SCAN" | grep -c "60")
+    HAS_OLED=$(echo "$BUS_SCAN" | grep -c "3c")
+
+    # If both motor and OLED found, use this bus (best match)
+    if [ "$HAS_MOTOR" -gt 0 ] && [ "$HAS_OLED" -gt 0 ]; then
+        JETBOT_I2C_BUS=$bus
+        echo "JETBOT_I2C_BUS=$JETBOT_I2C_BUS (motor+OLED detected)"
+        break
+    # If only motor found, use this bus but keep looking
+    elif [ "$HAS_MOTOR" -gt 0 ]; then
+        JETBOT_I2C_BUS=$bus
+        echo "JETBOT_I2C_BUS=$JETBOT_I2C_BUS (motor detected)"
+    fi
+done
+
+export JETBOT_I2C_BUS
+

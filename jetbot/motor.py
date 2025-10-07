@@ -39,6 +39,13 @@ from traitlets.config.configurable import Configurable
 
 
 # Scan for devices on I2C bus
+# Configure qwiic to use the correct I2C bus (default is 1, but some boards use 7)
+import os
+i2c_bus_number = int(os.environ.get('JETBOT_I2C_BUS', '1'))
+if i2c_bus_number != 1:
+    import qwiic_i2c
+    i2c_driver = qwiic_i2c.getI2CDriver()
+    i2c_driver._iBus = i2c_bus_number
 addresses = qwiic.scan()
 
 class Motor(Configurable):
