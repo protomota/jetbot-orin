@@ -90,8 +90,8 @@ gst-launch-1.0 nvarguscamerasrc sensor-id=0 ! 'video/x-raw(memory:NVMM),width=12
 
 ### Create Project Directory
 ```bash
-mkdir -p ~/source/jetson-source/jetson-camera
-cd ~/source/jetson-source/jetson-camera
+mkdir -p ~/source/jetbot-source/jetbot-camera
+cd ~/source/jetbot-source/jetbot-camera
 ```
 
 ### Set Up Python Virtual Environment
@@ -180,7 +180,7 @@ if __name__ == '__main__':
 
 ### Run the Server
 ```bash
-cd ~/source/jetson-source/jetson-camera
+cd ~/source/jetbot-source/jetbot-camera
 source venv/bin/activate
 python camera_server.py
 ```
