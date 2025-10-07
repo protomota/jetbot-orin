@@ -41,12 +41,30 @@ from .motor import Motor
 # Scan for devices on I2C bus
 # Configure qwiic to use the correct I2C bus (default is 1, but some boards use 7)
 import os
+import subprocess
 i2c_bus_number = int(os.environ.get('JETBOT_I2C_BUS', '1'))
-if i2c_bus_number != 1:
-    import qwiic_i2c
-    i2c_driver = qwiic_i2c.getI2CDriver()
-    i2c_driver._iBus = i2c_bus_number
-addresses = qwiic.scan()
+
+# Use i2cdetect to scan the bus since qwiic.scan() doesn't respect bus changes
+try:
+    result = subprocess.run(['i2cdetect', '-y', '-r', str(i2c_bus_number)],
+                          capture_output=True, text=True, timeout=5)
+    addresses = []
+    for line in result.stdout.split('\n')[1:]:  # Skip header
+        parts = line.split()[1:]  # Skip row label
+        for i, part in enumerate(parts):
+            if part not in ['--', 'UU']:
+                try:
+                    addr = int(part, 16)
+                    addresses.append(addr)
+                except ValueError:
+                    pass
+except:
+    # Fallback to qwiic.scan() if i2cdetect fails
+    if i2c_bus_number != 1:
+        import qwiic_i2c
+        i2c_driver = qwiic_i2c.getI2CDriver()
+        i2c_driver._iBus = i2c_bus_number
+    addresses = qwiic.scan()
 
 class Robot(SingletonConfigurable):
 
@@ -55,7 +73,7 @@ class Robot(SingletonConfigurable):
     
     
     # config
-    i2c_bus = traitlets.Integer(default_value=1).tag(config=True)
+    i2c_bus = traitlets.Integer(default_value=i2c_bus_number).tag(config=True)
     left_motor_channel = traitlets.Integer(default_value=1).tag(config=True)
     left_motor_alpha = traitlets.Float(default_value=1.0).tag(config=True)
     right_motor_channel = traitlets.Integer(default_value=2).tag(config=True)
