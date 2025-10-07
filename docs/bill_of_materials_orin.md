@@ -39,7 +39,21 @@ You need these components for each JetBot.
 
 !!! note
 
-    With this power source option, we recommend setting Jetson Orin Nano in `7W` mode (`sudo nvpmodel -m 1`), as we observed Jetson in `15W` mode shutdown in certain scenarios like suddenly ramping up the motor from 0% to 100% speed or having motors stalled.
+    This configuration is for **Jetson Orin Nano 8GB Developer Kit**.
+
+    With this power source option, we recommend setting Jetson Orin Nano in `3W` mode to optimize power consumption:
+
+    ```bash
+    sudo nvpmodel -m 3
+    ```
+
+    Then verify it worked:
+
+    ```bash
+    sudo nvpmodel -q
+    ```
+
+    We observed Jetson in `15W` mode shutdown in certain scenarios like suddenly ramping up the motor from 0% to 100% speed or having motors stalled. The `3W` mode provides the best balance of performance and power efficiency for battery operation.
 
 ### Camera
 

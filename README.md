@@ -74,6 +74,22 @@ The default password is `jetbot`.
 
 ## Optional Configuration
 
+### Power Mode (Jetson Orin Nano 8GB)
+
+For **Jetson Orin Nano 8GB Developer Kit**, we recommend lowering the power mode to 3W for optimal battery operation:
+
+```bash
+sudo nvpmodel -m 3
+```
+
+Then verify it worked:
+
+```bash
+sudo nvpmodel -q
+```
+
+This prevents shutdowns during high motor loads and extends battery life.
+
 ### Memory Limits
 
 If you need to set memory limits on the Jupyter container (automatically configured for systems with less than 3GB RAM):
