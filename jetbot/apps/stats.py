@@ -170,32 +170,42 @@ elif 61 in addresses:
 		time.sleep(5)
 
 while True:
-	# Check Eth0, Wlan0, and Wlan1 Connections---------------------------------
-	a = 0    # Indexing of Connections
-
-	# Checks for Ethernet Connection
+	# Auto-detect active network interfaces
+	# Find all network interfaces that are up and have an IP
+	network_interfaces = []
 	try:
-		eth = get_ip_address('eth0')
-		if eth != None:
-			a = a + 1
+		import glob
+		for iface_path in glob.glob('/sys/class/net/*'):
+			iface = os.path.basename(iface_path)
+			# Skip loopback, docker, and virtual interfaces
+			if iface in ['lo', 'docker0'] or iface.startswith('veth'):
+				continue
+			try:
+				ip = get_ip_address(iface)
+				if ip:
+					network_interfaces.append((iface, ip))
+			except:
+				pass
 	except Exception as e:
 		print(e)
 
-	# Checks for WiFi Connection on wlan0
-	try:
-		wlan0 = get_ip_address('wlan0')
-		if wlan0 != None:
-			a = a + 2
-	except Exception as e:
-			print(e)
+	# Fallback to checking standard interfaces if auto-detection fails
+	if not network_interfaces:
+		for iface in ['eth0', 'eno1', 'wlan0', 'wlan1', 'wlP1p1s0']:
+			try:
+				ip = get_ip_address(iface)
+				if ip:
+					network_interfaces.append((iface, ip))
+			except:
+				pass
 
-	# Checks for WiFi Connection on wlan1
-	try:
-		wlan1 = get_ip_address('wlan1')
-		if wlan1 != None:
-			a = a + 4
-	except Exception as e:
-		print(e)
+	# Use first interface for display
+	if network_interfaces:
+		a = 1
+		eth = network_interfaces[0][1]  # Use first interface IP
+	else:
+		a = 0
+		eth = None
 	
 	
 	# Check Resource Usage-----------------------------------------------------
@@ -221,19 +231,11 @@ while True:
 	try:
 		# 128x32 display (default)-------------------------------------------------
 		if 60 in addresses:
-			# IP address
-			if a == 1:
-				draw.text((x, top),       "eth0: " + str(eth),  font=font, fill=255)
-			elif a == 2:
-				draw.text((x, top+8),     "wlan0: " + str(wlan0), font=font, fill=255)
-			elif a == 3:
-				draw.text((x, top),       "eth0: " + str(eth),  font=font, fill=255)
-				draw.text((x, top+8),     "wlan0: " + str(wlan0), font=font, fill=255)
-			elif a == 4:
-				draw.text((x, top+8),     "wlan1: " + str(wlan1), font=font, fill=255)
-			elif a == 5:
-				draw.text((x, top),       "eth0: " + str(eth),  font=font, fill=255)
-				draw.text((x, top+8),     "wlan1: " + str(wlan1), font=font, fill=255)
+			# IP address - show first detected network interface
+			if a == 1 and network_interfaces:
+				iface_name = network_interfaces[0][0]
+				iface_ip = network_interfaces[0][1]
+				draw.text((x, top),       f"{iface_name}: {iface_ip}",  font=font, fill=255)
 			else:
 				draw.text((x, top),       "No Connection!",  font=font, fill=255)
 			
