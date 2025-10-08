@@ -6,6 +6,6 @@ sudo systemctl set-default multi-user
 # Disable ZRAM
 sudo systemctl disable nvzramconfig.service
 
-# Default to Max-N power mode
-sudo nvpmodel -m 0
+# Default to 3W power mode (battery-friendly)
+sudo nvpmodel -m 3
 
