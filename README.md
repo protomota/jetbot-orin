@@ -14,6 +14,66 @@ Building and using JetBot gives the hands on experience needed to create entirel
 
 ## Getting Started
 
+### Step 0 - Hardware Setup and Motor Controller Configuration
+
+Before running the software, ensure your hardware is properly configured:
+
+#### Motor Controller Power
+
+The Adafruit MotorHAT/FeatherWing motor controller requires **external power** (6-12V) separate from the Jetson.
+
+**Important**: Check that the motor controller has a **green power LED lit at all times**. Some power banks automatically shut down if they detect low current draw, thinking nothing is connected. If you're using a power bank:
+- Use a power bank that supports low-current devices
+- OR use a dedicated battery pack designed for robotics
+- Monitor the green LED - if it turns off, your power source has shut down
+
+#### I2C Bus Configuration
+
+The motor controller may be on a non-default I2C bus. To check which bus your motor controller is on:
+
+```bash
+# Check all I2C buses for the motor controller
+for bus in 0 1 2 7; do
+  echo "=== Bus $bus ==="
+  i2cdetect -y -r $bus
+done
+```
+
+Look for:
+- Address `60` (0x60) - Adafruit MotorHAT
+- Address `5d` (0x5D) - SparkFun Qwiic Motor Controller
+
+If your motor controller is **not on bus 1** (the default), you need to set the `JETBOT_I2C_BUS` environment variable:
+
+```bash
+# Add to ~/.bashrc for persistence
+echo 'export JETBOT_I2C_BUS=7' >> ~/.bashrc
+source ~/.bashrc
+```
+
+Replace `7` with whichever bus number shows your motor controller.
+
+#### Installing the JetBot Python Package
+
+```bash
+cd ~/source/jetbot-source
+python3 setup.py install --user
+```
+
+#### Testing Your Motors
+
+Test that motors are working:
+
+```bash
+python3 ~/source/jetbot-source/test_motors_simple.py
+```
+
+If motors don't move:
+1. Check the green power LED on the motor controller
+2. Verify external power supply is connected and ON
+3. Check motor connections to M1/M2 terminals
+4. Ensure `JETBOT_I2C_BUS` is set correctly (if not using bus 1)
+
 ### Step 1 - Configure System
 
 First, call the `scripts/configure_jetson.sh` script to configure the power mode and other parameters.
