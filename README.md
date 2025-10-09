@@ -1,10 +1,10 @@
-# JetBot
+# JetBot (Orin Nano)
 
 <img src="https://jetbot.org/master/images/jetbot_800x630.png" height="256">
 
 JetBot is an open-source robot based on NVIDIA Jetson Nano that is
 
-* **Affordable** - Less than $150 add-on to Jetson Nano
+* **Affordable** - Less than $150 add-on to Jetson Orin Nano
 * **Educational** - Tutorials from basic motion to AI based collision avoidance
 * **Fun!** - Interactively programmed from your web browser
 
@@ -13,6 +13,10 @@ Building and using JetBot gives the hands on experience needed to create entirel
 > Looking for a quick way to get started with JetBot? Many third party kits are [now available](https://jetbot.org/master/third_party_kits.html)!
 
 ## Getting Started
+
+Follow the [Nvidia Jetpack SDK Installation Instructions](https://docs.nvidia.com/jetson/jetpack/install-setup/index.html)! to intall the latest Jetpack to your Jetson Orin Nano
+
+
 
 ### Step 0 - Hardware Setup and Motor Controller Configuration
 
