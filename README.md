@@ -12,7 +12,7 @@ Building and using JetBot gives the hands on experience needed to create entirel
 
 ## About the Jetbot (Orin Nano) Project
 
-The original Jetbot was originally built on the older now discontinued Jetson Nano. The new Jetson Orin Nano hardware is much different, but also much more capable. Since the original Jetson Nano was discontinued, it seems that this project and software repo has all but been abandoned as it has seen no updates in over 4 years. But I am here to change that, and I am offering this up to the community.
+The Jetbot was originally built on the older, now-discontinued Jetson Nano. The newer Jetson Orin Nano 8GB Super Developer Kit is significantly different but also much more capable. Since the original Jetson Nano was discontinued, this project and software repository appear to have been largely abandoned, with no updates in over four years. With several code updates, I was successfully able to build a Jetbot using the Orin Nano and run all of the Jupyter notebooks, so I wanted to share my work here.
 
 ## Getting Started
 
@@ -60,7 +60,6 @@ Replace `7` with whichever bus number shows your motor controller.
 #### Installing the JetBot Python Package
 
 ```bash
-cd ~/source/jetbot-source
 python3 setup.py install --user
 ```
 
@@ -69,7 +68,7 @@ python3 setup.py install --user
 Test that motors are working:
 
 ```bash
-python3 ~/source/jetbot-source/test_motors_simple.py
+python3 test_motors_simple.py
 ```
 
 If motors don't move:
