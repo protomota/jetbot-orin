@@ -10,13 +10,13 @@ JetBot is an open-source robot based on NVIDIA Jetson Nano that is
 
 Building and using JetBot gives the hands on experience needed to create entirely new AI projects.
 
-> Looking for a quick way to get started with JetBot? Many third party kits are [now available](https://jetbot.org/master/third_party_kits.html)!
+## About the Jetbot (Orin Nano) Project
+
+The original Jetbot was originally built on the older now discontinued Jetson Nano. The new Jetson Orin Nano hardware is much different, but also much more capable. Since the original Jetson Nano was discontinued, it seems that this project and software repo has all but been abandoned as it has seen no updates in over 4 years. But I am here to change that, and I am offering this up to the community.
 
 ## Getting Started
 
-Follow the [Nvidia Jetpack SDK Installation Instructions](https://docs.nvidia.com/jetson/jetpack/install-setup/index.html)! to intall the latest Jetpack to your Jetson Orin Nano
-
-
+Follow the [Nvidia Jetpack SDK Installation Instructions](https://docs.nvidia.com/jetson/jetpack/install-setup/index.html) to intall the latest Jetpack to your Jetson Orin Nano
 
 ### Step 0 - Hardware Setup and Motor Controller Configuration
 
