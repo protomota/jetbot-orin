@@ -2,6 +2,12 @@
 
 <img src="https://jetbot.org/master/images/jetbot_800x630.png" height="256">
 
+## About the Jetbot (Orin Nano) Project
+
+The Jetbot was originally built on the older, now-discontinued Jetson Nano. The newer Jetson Orin Nano 8GB Super Developer Kit is significantly different but also much more capable. Since the original Jetson Nano was discontinued, this project and software repository appear to have been largely abandoned, with no updates since Feburary 2, 2021 and no support for the Jetson Orin Nano other than a build list on the website which is not up to date either and needs to be improved. With several code updates, I was successfully able to build a Jetbot using the Orin Nano and run all of the Jupyter notebooks, so I wanted to share my work here.
+
+The other problem I ran into was power. The older Nano uses 5V vs (9-18V) on the newer Orin Nano. This higher voltage seems to be a problem with all basic 10,000mah phone charger battery. Trust me, I tried a bunch and will probably be banned by Amazon for all my returns. I also looked into 
+
 JetBot is an open-source robot based on NVIDIA Jetson Nano that is
 
 * **Affordable** - Less than $150 add-on to Jetson Orin Nano
@@ -9,10 +15,6 @@ JetBot is an open-source robot based on NVIDIA Jetson Nano that is
 * **Fun!** - Interactively programmed from your web browser
 
 Building and using JetBot gives the hands on experience needed to create entirely new AI projects.
-
-## About the Jetbot (Orin Nano) Project
-
-The Jetbot was originally built on the older, now-discontinued Jetson Nano. The newer Jetson Orin Nano 8GB Super Developer Kit is significantly different but also much more capable. Since the original Jetson Nano was discontinued, this project and software repository appear to have been largely abandoned, with no updates in over four years. With several code updates, I was successfully able to build a Jetbot using the Orin Nano and run all of the Jupyter notebooks, so I wanted to share my work here.
 
 ## Getting Started
 
