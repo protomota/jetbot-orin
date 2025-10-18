@@ -6,7 +6,8 @@
 # Convenience script to stop JetBot Docker containers from anywhere
 # =============================================================================
 
-JETBOT_DIR="/home/brad/source/jetbot-orin"
+# Update this path if your installation is in a different location
+JETBOT_DIR="$HOME/source/jetbot-orin"
 
 # Color codes for output
 BLUE='\033[0;34m'

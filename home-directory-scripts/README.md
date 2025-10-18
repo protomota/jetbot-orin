@@ -4,7 +4,15 @@ These scripts are designed to be copied to your home directory (`~/`) for conven
 
 ## Installation
 
-Copy these scripts to your home directory:
+1. **Update the path in each script** (if your installation is not at `~/source/jetbot-orin`):
+
+```bash
+# Edit each script and update the JETBOT_DIR path
+nano home-directory-scripts/start_jetbot.sh
+nano home-directory-scripts/stop_jetbot.sh
+```
+
+2. **Copy scripts to your home directory**:
 
 ```bash
 cp home-directory-scripts/* ~/
@@ -107,7 +115,7 @@ The jetbot-rover project uses trained models from jetbot-orin:
 ## Notes
 
 - All scripts assume the jetbot-orin directory is at `~/source/jetbot-orin`
-- If your installation is in a different location, edit the `JETBOT_DIR` variable in each script
+- **If your installation is in a different location**, edit the `JETBOT_DIR` variable in each script before copying
 - These are convenience wrappers - you can still use the scripts directly from the jetbot-orin directory
 - JetBot containers use significant GPU memory (~2-3GB) - stop them before running jetbot-rover VILA service
 
