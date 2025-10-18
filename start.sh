@@ -115,7 +115,7 @@ if [ "$ALL_RUNNING" = true ]; then
     echo -e "${GREEN}SUCCESS!${NC} All JetBot containers are running"
     echo ""
     echo -e "${YELLOW}Access Jupyter Lab at:${NC}"
-    echo "  https://$(hostname -I | awk '{print $1}'):8888"
+    echo "  http://10.21.21.40:8888"
     echo "  Password: jetbot"
     echo ""
 else
